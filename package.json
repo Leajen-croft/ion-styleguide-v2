@@ -16,6 +16,7 @@
     "markdown-it": "^8.1.0",
     "markdown-it-anchor": "^2.5.0",
     "markdown-it-container": "^2.0.0",
+    "markdown-it-highlightjs": "^2.0.0",
     "markdown-it-table-of-contents": "^0.2.3",
     "npm": "^3.10.9"
   }

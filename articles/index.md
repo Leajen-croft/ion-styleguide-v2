@@ -10,8 +10,8 @@ Some nice text
 Some even nicer text `mfkl`
 
 ``` lang-css
-kfkdklgjfjklgh
-fkdl;gmrklgmt
-mjfkldmjgr
+.body {
+  color: red;
+}
 ```
 :::

@@ -4,9 +4,10 @@ var tap = require('gulp-tap');
 var MarkdownIt = require('markdown-it');
 var md = new MarkdownIt();
 
-md.use(require("markdown-it-anchor"), 'level: 2'); // Optional, but makes sense as you really want to link to something
+md.use(require("markdown-it-anchor"), 'level: 1'); // Optional, but makes sense as you really want to link to something
 md.use(require("markdown-it-table-of-contents"));
 md.use(require("markdown-it-container"),'warning');
+md.use(require('markdown-it-highlightjs'));
 
 
 gulp.task('build', function() {
