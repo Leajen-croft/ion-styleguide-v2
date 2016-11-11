@@ -3,9 +3,13 @@ var gutil = require('gulp-util');
 var tap = require('gulp-tap');
 var MarkdownIt = require('markdown-it');
 var md = new MarkdownIt();
+var markdownItTocAndAnchor = require('markdown-it-toc-and-anchor').default;
 
-md.use(require("markdown-it-anchor"), 'level: 3'); // Optional, but makes sense as you really want to link to something
-md.use(require("markdown-it-table-of-contents"));
+md.use(markdownItTocAndAnchor, {
+      tocFirstLevel: 2,
+      tocLastLevel: 2,
+      anchorLink: false
+    });
 md.use(require("markdown-it-container"),'warning');
 md.use(require('markdown-it-highlightjs'));
 
