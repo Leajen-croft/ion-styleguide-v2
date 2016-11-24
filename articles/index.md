@@ -3,6 +3,10 @@
 @[toc]
 
 ## Sub heading 1
+::: block
+  <ion-colour-palette colour-name="Scooter" hex-value="#37bec6" rgb-value="55,190,198" colour-variable="scooter"></ion-colour-palette>
+:::
+
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam lobortis interdum odio at congue. Quisque neque purus, ultrices vel vestibulum ut, condimentum a sapien. In eleifend varius condimentum. Duis maximus congue nibh sed scelerisque. Etiam porttitor tincidunt quam, sit amet mattis nisi cursus vel. Maecenas eleifend ante lacus, in luctus ex mattis sit amet. Aliquam non egestas augue. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer odio orci, aliquam scelerisque mi mollis, laoreet interdum sapien. Aliquam hendrerit viverra est in eleifend. Nunc dictum aliquet ante quis semper. Maecenas id arcu arcu. Phasellus lorem sem, condimentum non ante sit amet, mattis consectetur odio. Proin luctus tincidunt ullamcorper. Ut volutpat sem in neque viverra sodales.
 
 In mattis cursus justo quis consectetur. Vivamus vel lacinia odio. Duis porta nulla nec nisi pretium, id pharetra lectus convallis. Mauris fringilla eros dolor, a aliquet est tempor nec. Sed egestas, urna non tempor pharetra, enim velit mollis sapien, id ultricies leo dolor et ex. Maecenas euismod libero dolor, nec laoreet lacus malesuada vel. In sollicitudin id enim quis semper. Mauris ornare dui ex, tincidunt tempus odio varius sit amet. Ut dapibus pulvinar neque, sed laoreet augue venenatis at. Morbi at euismod felis. Pellentesque at suscipit libero. Praesent fringilla orci ac magna auctor, sed placerat risus pulvinar. Praesent id malesuada turpis. Duis a tellus dolor. Praesent accumsan nibh velit, a condimentum sapien congue in. Cras non dui vitae neque posuere pretium.

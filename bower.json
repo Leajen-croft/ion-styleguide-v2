@@ -1,0 +1,21 @@
+{
+  "name": "ion-styleguide",
+  "description": "The ion style generator.",
+  "main": "index.js",
+  "authors": [
+    "Liam Wright <liam.wright@ems-internet.co.uk>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/Leajen-croft/ion-styleguide-v2",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "ion-polymer-elements": "Leajen-croft/ion-polymer-elements#^0.2.0"
+  }
+}

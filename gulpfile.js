@@ -2,8 +2,11 @@ var gulp = require('gulp');
 var gutil = require('gulp-util');
 var tap = require('gulp-tap');
 var Handlebars = require('handlebars');
-var MarkdownIt = require('markdown-it');
-var md = new MarkdownIt();
+var md = require('markdown-it')({
+  html: true,
+  linkify: true,
+  typographer: true
+});
 var markdownItTocAndAnchor = require('markdown-it-toc-and-anchor').default;
 
 md.use(markdownItTocAndAnchor, {
@@ -11,7 +14,7 @@ md.use(markdownItTocAndAnchor, {
       tocLastLevel: 2,
       anchorLink: false
     });
-md.use(require("markdown-it-container"),'warning');
+md.use(require("markdown-it-container"),'block');
 md.use(require('markdown-it-highlightjs'));
 
 function markdownToHtml(file) {
