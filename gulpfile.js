@@ -2,10 +2,24 @@ var gulp = require('gulp');
 var gutil = require('gulp-util');
 var tap = require('gulp-tap');
 var Handlebars = require('handlebars');
+var hljs = require('highlight.js');
+var browserSync = require('browser-sync').create();
 var md = require('markdown-it')({
   html: true,
+  langPrefix:   'language-',
   linkify: true,
-  typographer: true
+  typographer: true,
+  highlight: function (str, lang) {
+    if (lang && hljs.getLanguage(lang)) {
+      try {
+        return '<pre class="hljs"><code>' +
+               hljs.highlight(lang, str, true).value +
+               '</code></pre>';
+      } catch (__) {}
+    }
+
+    return '<pre class="hljs"><code>' + md.utils.escapeHtml(str) + '</code></pre>';
+  }
 });
 var markdownItTocAndAnchor = require('markdown-it-toc-and-anchor').default;
 
@@ -14,24 +28,45 @@ md.use(markdownItTocAndAnchor, {
       tocLastLevel: 2,
       anchorLink: false
     });
-md.use(require("markdown-it-container"),'block');
-md.use(require('markdown-it-highlightjs'));
 
+function setupContainer(name) {
+  md.use(require("markdown-it-container"), name, {
+      render: function (tokens, idx) {
+          if (tokens[idx].nesting === 1) {
+            if(name === "half") {
+              return '<div class="small-12 medium-6 large-6 columns">\n';
+            } else if(name === "third") {
+              return '<div class="small-12 medium-6 large-4 columns">\n';
+            } else if(name === "quarter") {
+              return '<div class="small-12 medium-6 large-3 columns">\n';
+            } else if(name === "full") {
+              return '<div class="small-12 columns">\n';
+            }
+          } else {
+              return '</div>\n';
+          }
+      }
+  });
+}
+setupContainer('half');
+setupContainer('third');
+setupContainer('quarter');
+setupContainer('full');
 function markdownToHtml(file) {
     var result = md.render(file.contents.toString());
     file.contents = new Buffer(result);
     file.path = gutil.replaceExtension(file.path, '.html');
     return;
 }
-gulp.task('generate_pages', function() {
+gulp.task('generate_pages', function(done) {
   // read the template from page.hbs
-  return gulp.src('articles/page.hbs')
+  return gulp.src('./src/page.hbs')
     .pipe(tap(function(file) {
       // file is page.hbs so generate template from file
       var template = Handlebars.compile(file.contents.toString());
 
       // now read all the pages from the pages directory
-      return gulp.src('articles/**/*.md')
+      return gulp.src('./src/**/*.md')
         // convert from markdown
         .pipe(tap(markdownToHtml))
         .pipe(tap(function(file) {
@@ -45,7 +80,23 @@ gulp.task('generate_pages', function() {
           // replace the file contents with the new HTML created from the Handlebars template + data object that contains the HTML made from the markdown conversion
           file.contents = new Buffer(html, "utf-8");
         }))
-        .pipe(gulp.dest('build/pages'));
+        .pipe(gulp.dest('./dist'))
+        .pipe(browserSync.reload({stream: true}));
     }));
 });
-gulp.task('default',['generate_pages']);
+gulp.task('serve',['generate_pages'], function() {
+    browserSync.init({
+        server: {
+            baseDir: "./dist"
+        }
+    });
+});
+gulp.task('watch', ['serve'], function() {
+  gulp.watch("./src/**/*.md", ['generate_pages']);
+  gulp.watch("./dist/*.html").on('change', browserSync.reload);
+});
+gulp.task('copy', function(){
+  return gulp.src(['./bower_components/**/*', './node_modules/highlight.js/styles/monokai-sublime.css'])
+          .pipe(gulp.dest('dist/assets'));
+});
+gulp.task('default',['generate_pages', 'copy', 'watch']);
