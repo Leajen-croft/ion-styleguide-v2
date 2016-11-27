@@ -16,6 +16,6 @@
     "tests"
   ],
   "dependencies": {
-    "ion-polymer-elements": "Leajen-croft/ion-polymer-elements#^0.2.0"
+    "ion-polymer-elements": "Leajen-croft/ion-polymer-elements#^0.3.0"
   }
 }

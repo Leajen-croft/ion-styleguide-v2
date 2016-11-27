@@ -4,6 +4,8 @@ var tap = require('gulp-tap');
 var Handlebars = require('handlebars');
 var hljs = require('highlight.js');
 var browserSync = require('browser-sync').create();
+var yaml = require('js-yaml');
+var fs = require('fs');
 var md = require('markdown-it')({
   html: true,
   langPrefix:   'language-',
@@ -52,6 +54,13 @@ setupContainer('half');
 setupContainer('third');
 setupContainer('quarter');
 setupContainer('full');
+
+var CONFIG = loadConfig();
+
+function loadConfig() {
+  var ymlFile = fs.readFileSync('config.yml', 'utf8');
+  return yaml.load(ymlFile);
+}
 function markdownToHtml(file) {
     var result = md.render(file.contents.toString());
     file.contents = new Buffer(result);
@@ -80,23 +89,24 @@ gulp.task('generate_pages', function(done) {
           // replace the file contents with the new HTML created from the Handlebars template + data object that contains the HTML made from the markdown conversion
           file.contents = new Buffer(html, "utf-8");
         }))
-        .pipe(gulp.dest('./dist'))
+        .pipe(gulp.dest(CONFIG.PATHS.dist))
         .pipe(browserSync.reload({stream: true}));
     }));
 });
-gulp.task('serve',['generate_pages'], function() {
+gulp.task('serve',['generate_pages', 'copy'], function() {
     browserSync.init({
         server: {
-            baseDir: "./dist"
+            baseDir: CONFIG.PATHS.dist
         }
     });
 });
 gulp.task('watch', ['serve'], function() {
-  gulp.watch("./src/**/*.md", ['generate_pages']);
+  gulp.watch("./src/**/*.md", ['generate_pages', 'copy']);
   gulp.watch("./dist/*.html").on('change', browserSync.reload);
 });
 gulp.task('copy', function(){
-  return gulp.src(['./bower_components/**/*', './node_modules/highlight.js/styles/monokai-sublime.css'])
-          .pipe(gulp.dest('dist/assets'));
+  return gulp.src(CONFIG.PATHS.assets)
+          .pipe(gulp.dest(CONFIG.PATHS.dist + '/assets'))
+          .pipe(browserSync.reload({stream: true}));
 });
 gulp.task('default',['generate_pages', 'copy', 'watch']);

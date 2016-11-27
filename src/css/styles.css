@@ -1,0 +1,34 @@
+pre code {
+  background: none;
+  border: none;
+  color: #fff;
+}
+h1,h2,h3,h4,h5,h6 {
+  width: 100%;
+  position: relative;
+  clear: both;
+}
+h3::before {
+  content: " ";
+  border-top: 1px solid #ccc;
+  width: 100%;
+  position: absolute;
+  right: calc(100% + 10px);
+  top: 50%;
+  margin-right: 10px;
+}
+
+h3:first-of-type::before {
+  border-top-color: #000;
+}
+
+hr {
+  border-color: transparent;
+}
+
+section.invert {
+  background: #1d1d1d;
+}
+section.invert p {
+  color: #fff;
+}
