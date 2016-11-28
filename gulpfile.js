@@ -1,11 +1,15 @@
 var gulp = require('gulp');
 var gutil = require('gulp-util');
 var tap = require('gulp-tap');
+var sass = require('gulp-sass');
+var autoprefixer = require('gulp-autoprefixer');
+var rimraf = require('rimraf');
 var Handlebars = require('handlebars');
 var hljs = require('highlight.js');
 var browserSync = require('browser-sync').create();
 var yaml = require('js-yaml');
 var fs = require('fs');
+
 var md = require('markdown-it')({
   html: true,
   langPrefix:   'language-',
@@ -93,20 +97,36 @@ gulp.task('generate_pages', function(done) {
         .pipe(browserSync.reload({stream: true}));
     }));
 });
-gulp.task('serve',['generate_pages', 'copy'], function() {
+gulp.task('serve',['generate_pages', 'sass', 'copy'], function() {
     browserSync.init({
         server: {
             baseDir: CONFIG.PATHS.dist
         }
     });
 });
-gulp.task('watch', ['serve'], function() {
-  gulp.watch("./src/**/*.md", ['generate_pages', 'copy']);
-  gulp.watch("./dist/*.html").on('change', browserSync.reload);
-});
-gulp.task('copy', function(){
+
+gulp.task('copy', ['clean'], function(){
   return gulp.src(CONFIG.PATHS.assets)
-          .pipe(gulp.dest(CONFIG.PATHS.dist + '/assets'))
-          .pipe(browserSync.reload({stream: true}));
+          .pipe(gulp.dest(CONFIG.PATHS.dist + '/assets'));
 });
-gulp.task('default',['generate_pages', 'copy', 'watch']);
+
+gulp.task('clean', function clean(done) {
+  rimraf(CONFIG.PATHS.dist, done);
+});
+
+gulp.task('sass', function () {
+  return gulp.src(CONFIG.PATHS.sass)
+    .pipe(sass().on('error', sass.logError))
+    .pipe(autoprefixer({
+      browsers: CONFIG.COMPATIBILITY
+    }))
+    .pipe(gulp.dest(CONFIG.PATHS.dist + '/assets/css'))
+    .pipe(browserSync.reload({stream: true}));
+});
+
+gulp.task('watch', ['serve'], function() {
+  gulp.watch("./src/**/*.md", ['generate_pages']);
+  gulp.watch("src/scss/**/*.scss", ['sass']);
+});
+
+gulp.task('default',['generate_pages', 'sass', 'copy', 'watch']);

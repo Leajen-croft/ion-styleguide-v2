@@ -29,7 +29,6 @@
 ## Buttons
 ### button style 1
 Some blurb about the button `.button`
-<section class="invert clearfix">
 
 ::: quarter
   <a href="#" class="button">
@@ -67,5 +66,3 @@ Some blurb about the button `.button`
   <input class="button" type="button" value="static">
   ```
 :::
-
-</section>

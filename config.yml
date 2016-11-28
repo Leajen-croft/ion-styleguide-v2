@@ -1,6 +1,6 @@
 # Autoprefixer will make sure your CSS works with these browsers
 COMPATIBILITY:
-  - "last 2 versions"
+  - "last 3 versions"
   - "ie >= 9"
 
 
@@ -12,9 +12,7 @@ PATHS:
   assets:
     - "./bower_components/**/*"
     - "./node_modules/highlight.js/styles/monokai-sublime.css"
-    - "./src/css/**/*"
   # Paths to Sass libraries, which can then be loaded with @import
   sass:
-    - "bower_components/foundation-sites/scss"
-    - "bower_components/motion-ui/src"
+    - "./src/scss/*.scss"
   # Paths to JavaScript libraries, which are compined into one file
